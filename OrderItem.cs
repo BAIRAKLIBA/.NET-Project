@@ -1,10 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace project1.Models
 {
@@ -14,17 +11,25 @@ namespace project1.Models
         [Key]
         public int Id { get; set; }
 
+        [Required, ForeignKey("Order")]
         public int OrderId { get; set; }
         public virtual Order Order { get; set; }
 
+        [Required, ForeignKey("Product")]
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
 
-        public int UnitId { get; set; }
-        public virtual Unit Unit { get; set; }
+        [Required]
+        [Column(TypeName = "decimal")]
+        public decimal UnitPrice { get; set; }
 
-        public decimal Quantity { get; set; }
+        [Required]
+        public int Quantity { get; set; }
+
+        [Required]
         public bool IsDiscounted { get; set; }
+
+        [Column(TypeName = "decimal")]
         public decimal? DiscountPrice { get; set; }
     }
 }
