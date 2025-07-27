@@ -1,10 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace project1.Models
 {
@@ -13,13 +10,23 @@ namespace project1.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Required]
         public DateTime OrderDate { get; set; }
+
+        [Required, StringLength(50)]
         public string OrderNumber { get; set; }
 
+        [Required]
+        [ForeignKey("Customer")]
+        [Column("CustomId")] 
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
 
-        public decimal? TotalAmount { get; set; }
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
+        [Required]
+        [Column(TypeName = "decimal")]
+        public decimal TotalAmount { get; set; }
+
+        public virtual ICollection<OrderItem> OrderItems { get; set; } = new HashSet<OrderItem>();
     }
 }
