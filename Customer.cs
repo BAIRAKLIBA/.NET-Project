@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,6 +12,13 @@ namespace project1.Models
     [Table("Customers")]
     public class Customer
     {
+        public Customer()
+        {
+            Orders = new HashSet<Order>();
+            PhoneNumbers = new HashSet<CustomerPhoneNumber>();
+            Relationships = new HashSet<CustomerRelationship>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -24,8 +31,9 @@ namespace project1.Models
         public string LastName { get; set; }
 
 
+        [Required]
         [ForeignKey("Gender")]
-        public int? GenderId { get; set; }
+        public int GenderId { get; set; }
         public virtual Gender Gender { get; set; }
 
 
@@ -34,13 +42,13 @@ namespace project1.Models
         public DateTime? BirthDate { get; set; }
 
 
-        [ForeignKey("City")]
-        public int? CityId { get; set; }
+        [Required, ForeignKey("City")]
+        public int CityId { get; set; }
         public virtual City City { get; set; }
 
 
-        [ForeignKey("Country")]
-        public int? CountryId { get; set; }
+        [Required, ForeignKey("Country")]
+        public int CountryId { get; set; }
         public virtual Country Country { get; set; }
 
 
@@ -52,6 +60,9 @@ namespace project1.Models
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<CustomerPhoneNumber> PhoneNumbers { get; set; }
         public virtual ICollection<CustomerRelationship> Relationships { get; set; }
+
+        public virtual ICollection<CustomerRelationship> StartedRelationships { get; set; }
+        public virtual ICollection<CustomerRelationship> EndedRelationships { get; set; }
 
     }
 }
