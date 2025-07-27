@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,7 +20,6 @@ namespace project1.Models
         [Required, StringLength(10)]
         public string ShortName { get; set; }
 
-        public virtual ICollection<Warehouse> Warehouses { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }
