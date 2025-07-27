@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,7 +14,10 @@ namespace project1.Models
     {
         [Key]
         public int Id { get; set; }
+
+        [Required, StringLength(20)]
         public string Name { get; set; }
-        public virtual ICollection<CustomErrorsModes> Customers { get; set; }
+
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }
