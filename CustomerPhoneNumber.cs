@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,16 +14,19 @@ namespace project1.Models
         [Key]
         public int Id { get; set; }
 
-
+        [Required]
         [ForeignKey("PhoneType")]
         public int PhoneTypeId { get; set; }
         public virtual PhoneType PhoneType { get; set; }
 
-        [StringLength(9)]
+        [Required]
+        [StringLength(50)]
         public string PhoneNumber { get; set; }
 
+        [Required]
         public bool IsMain { get; set; }
 
+        [Required]
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
