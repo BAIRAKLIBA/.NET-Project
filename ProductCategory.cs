@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,9 +8,16 @@ using System.Threading.Tasks;
 
 namespace project1.Models
 {
+    
     [Table("ProductCategories")]
     public class ProductCategory
     {
+        public ProductCategory()
+        {
+            Products = new HashSet<Product>();
+        }
+
+
         [Key]
         public int Id { get; set; }
 
@@ -20,7 +27,7 @@ namespace project1.Models
         [Required, StringLength(100)]
         public string Name { get; set; }
 
-        public virtual ICollection<ProductCategory> Product { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
 
     }
 }
