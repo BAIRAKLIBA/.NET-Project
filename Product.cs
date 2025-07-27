@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,6 +11,12 @@ namespace project1.Models
     [Table("Products")]
     public class Product
     {
+        public Product()
+        {
+            Warehouses = new HashSet<Warehouse>();
+            OrderItems = new HashSet<OrderItem>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -20,6 +26,7 @@ namespace project1.Models
         [Required, StringLength(100)]
         public string Name { get; set; }
 
+        [ForeignKey("Category")]
         public int CategoryId { get; set; }
         public virtual ProductCategory Category { get; set; }
 
