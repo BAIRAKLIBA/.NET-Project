@@ -1,0 +1,155 @@
+CREATE DATABASE ShopDB;
+GO
+
+USE ShopDB;
+GO
+
+-- Таблица стран
+CREATE TABLE Countries (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(100) NOT NULL
+);
+
+-- Таблица городов
+CREATE TABLE Cities (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(100) NOT NULL,
+    CountryId INT NOT NULL,
+    FOREIGN KEY (CountryId) REFERENCES Countries(Id)
+);
+
+-- Таблица категорий продуктов
+CREATE TABLE ProductCategories (
+    Id INT PRIMARY KEY IDENTITY,
+    Code NVARCHAR(50) NOT NULL,
+    Name NVARCHAR(100) NOT NULL
+);
+
+-- Таблица единиц измерения
+CREATE TABLE Units (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(50) NOT NULL,
+    ShortName NVARCHAR(10) NOT NULL
+);
+
+-- Таблица поставщиков
+CREATE TABLE Suppliers (
+    Id INT PRIMARY KEY IDENTITY,
+    CompanyCode NVARCHAR(50),
+    CompanyName NVARCHAR(100),
+    ContactFullName NVARCHAR(100),
+    CityId INT,
+    CountryId INT,
+    Phone NVARCHAR(20),
+    Email NVARCHAR(100),
+    WebSite NVARCHAR(100),
+    FOREIGN KEY (CityId) REFERENCES Cities(Id),
+    FOREIGN KEY (CountryId) REFERENCES Countries(Id)
+);
+
+-- Таблица продуктов
+CREATE TABLE Products (
+    Id INT PRIMARY KEY IDENTITY,
+    Code NVARCHAR(50) NOT NULL,
+    Name NVARCHAR(100) NOT NULL,
+    CategoryId INT NOT NULL,
+    FOREIGN KEY (CategoryId) REFERENCES ProductCategories(Id)
+);
+
+-- Таблица склада
+CREATE TABLE Warehouse (
+    Id INT PRIMARY KEY IDENTITY,
+    OperationDate DATE NOT NULL,
+    DocNumber NVARCHAR(50),
+    ProductId INT NOT NULL,
+    SupplierId INT NOT NULL,
+    UnitId INT NOT NULL,
+    Quantity DECIMAL(18, 2) NOT NULL,
+    ExpiryDate DATE,
+    UnitPrice DECIMAL(18, 2),
+    RealizationPrice DECIMAL(18, 2),
+    FOREIGN KEY (ProductId) REFERENCES Products(Id),
+    FOREIGN KEY (SupplierId) REFERENCES Suppliers(Id),
+    FOREIGN KEY (UnitId) REFERENCES Units(Id)
+);
+
+-- Таблица пола
+CREATE TABLE Gender (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(20) NOT NULL
+);
+
+-- Таблица клиентов
+CREATE TABLE Customers (
+    Id INT PRIMARY KEY IDENTITY,
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    GenderId INT,
+    PersonalNumber NVARCHAR(11),
+    BirthDate DATE,
+    CityId INT,
+    CountryId INT,
+    Email NVARCHAR(100),
+    FOREIGN KEY (GenderId) REFERENCES Gender(Id),
+    FOREIGN KEY (CityId) REFERENCES Cities(Id),
+    FOREIGN KEY (CountryId) REFERENCES Countries(Id)
+);
+
+-- Таблица заказов
+CREATE TABLE Orders (
+    Id INT PRIMARY KEY IDENTITY,
+    OrderDate DATE NOT NULL,
+    OrderNumber NVARCHAR(50) NOT NULL,
+    CustomerId INT NOT NULL,
+    TotalAmount DECIMAL(18, 2),
+    FOREIGN KEY (CustomerId) REFERENCES Customers(Id)
+);
+
+-- Таблица позиций заказа
+CREATE TABLE OrderItems (
+    Id INT PRIMARY KEY IDENTITY,
+    OrderId INT NOT NULL,
+    ProductId INT NOT NULL,
+    UnitId INT NOT NULL,
+    Quantity DECIMAL(18, 2),
+    IsDiscounted BIT,
+    DiscountPrice DECIMAL(18, 2),
+    FOREIGN KEY (OrderId) REFERENCES Orders(Id),
+    FOREIGN KEY (ProductId) REFERENCES Products(Id),
+    FOREIGN KEY (UnitId) REFERENCES Units(Id)
+);
+
+-- Типы телефонов
+CREATE TABLE PhoneTypes (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(50) NOT NULL
+);
+
+-- Телефоны клиентов
+CREATE TABLE CustomersPhoneNumbers (
+    Id INT PRIMARY KEY IDENTITY,
+    PhoneTypeId INT NOT NULL,
+    PhoneNumber NVARCHAR(20) NOT NULL,
+    CustomerId INT NOT NULL,
+    IsMain BIT,
+    FOREIGN KEY (PhoneTypeId) REFERENCES PhoneTypes(Id),
+    FOREIGN KEY (CustomerId) REFERENCES Customers(Id)
+);
+
+-- Типы отношений между клиентами
+CREATE TABLE RelationshipTypes (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(50) NOT NULL
+);
+
+-- Отношения между клиентами
+CREATE TABLE CustomersRelationships (
+    Id INT PRIMARY KEY IDENTITY,
+    RelationshipTypeId INT NOT NULL,
+    StartCustomerId INT NOT NULL,
+    EndCustomerId INT NOT NULL,
+    Comment NVARCHAR(200),
+    FOREIGN KEY (RelationshipTypeId) REFERENCES RelationshipTypes(Id),
+    FOREIGN KEY (StartCustomerId) REFERENCES Customers(Id),
+    FOREIGN KEY (EndCustomerId) REFERENCES Customers(Id)
+);
