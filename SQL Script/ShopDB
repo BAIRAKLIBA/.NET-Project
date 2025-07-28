@@ -4,13 +4,11 @@ GO
 USE ShopDB;
 GO
 
--- Таблица стран
 CREATE TABLE Countries (
     Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(100) NOT NULL
 );
 
--- Таблица городов
 CREATE TABLE Cities (
     Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(100) NOT NULL,
@@ -18,21 +16,18 @@ CREATE TABLE Cities (
     FOREIGN KEY (CountryId) REFERENCES Countries(Id)
 );
 
--- Таблица категорий продуктов
 CREATE TABLE ProductCategories (
     Id INT PRIMARY KEY IDENTITY,
     Code NVARCHAR(50) NOT NULL,
     Name NVARCHAR(100) NOT NULL
 );
 
--- Таблица единиц измерения
 CREATE TABLE Units (
     Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(50) NOT NULL,
     ShortName NVARCHAR(10) NOT NULL
 );
 
--- Таблица поставщиков
 CREATE TABLE Suppliers (
     Id INT PRIMARY KEY IDENTITY,
     CompanyCode NVARCHAR(50),
@@ -47,7 +42,6 @@ CREATE TABLE Suppliers (
     FOREIGN KEY (CountryId) REFERENCES Countries(Id)
 );
 
--- Таблица продуктов
 CREATE TABLE Products (
     Id INT PRIMARY KEY IDENTITY,
     Code NVARCHAR(50) NOT NULL,
@@ -56,7 +50,6 @@ CREATE TABLE Products (
     FOREIGN KEY (CategoryId) REFERENCES ProductCategories(Id)
 );
 
--- Таблица склада
 CREATE TABLE Warehouse (
     Id INT PRIMARY KEY IDENTITY,
     OperationDate DATE NOT NULL,
@@ -73,13 +66,11 @@ CREATE TABLE Warehouse (
     FOREIGN KEY (UnitId) REFERENCES Units(Id)
 );
 
--- Таблица пола
 CREATE TABLE Gender (
     Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(20) NOT NULL
 );
 
--- Таблица клиентов
 CREATE TABLE Customers (
     Id INT PRIMARY KEY IDENTITY,
     FirstName NVARCHAR(50) NOT NULL,
@@ -95,7 +86,6 @@ CREATE TABLE Customers (
     FOREIGN KEY (CountryId) REFERENCES Countries(Id)
 );
 
--- Таблица заказов
 CREATE TABLE Orders (
     Id INT PRIMARY KEY IDENTITY,
     OrderDate DATE NOT NULL,
@@ -105,7 +95,6 @@ CREATE TABLE Orders (
     FOREIGN KEY (CustomerId) REFERENCES Customers(Id)
 );
 
--- Таблица позиций заказа
 CREATE TABLE OrderItems (
     Id INT PRIMARY KEY IDENTITY,
     OrderId INT NOT NULL,
@@ -119,13 +108,11 @@ CREATE TABLE OrderItems (
     FOREIGN KEY (UnitId) REFERENCES Units(Id)
 );
 
--- Типы телефонов
 CREATE TABLE PhoneTypes (
     Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(50) NOT NULL
 );
 
--- Телефоны клиентов
 CREATE TABLE CustomersPhoneNumbers (
     Id INT PRIMARY KEY IDENTITY,
     PhoneTypeId INT NOT NULL,
@@ -136,13 +123,11 @@ CREATE TABLE CustomersPhoneNumbers (
     FOREIGN KEY (CustomerId) REFERENCES Customers(Id)
 );
 
--- Типы отношений между клиентами
 CREATE TABLE RelationshipTypes (
     Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(50) NOT NULL
 );
 
--- Отношения между клиентами
 CREATE TABLE CustomersRelationships (
     Id INT PRIMARY KEY IDENTITY,
     RelationshipTypeId INT NOT NULL,
