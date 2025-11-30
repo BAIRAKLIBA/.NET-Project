@@ -17,7 +17,7 @@ namespace project1.Models
             Customers = new HashSet<Customer>();
             Suppliers = new HashSet<Supplier>();
         }
-
+        //This is comment
         [Key]
         public int Id { get; set; }
 
